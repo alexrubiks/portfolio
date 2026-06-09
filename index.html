@@ -523,12 +523,14 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width: 800px) {
       nav { padding: 0 1.5rem; }
-      nav ul { gap: 1.5rem; }
+      nav > a { display: none; } 
+      nav ul { gap: 1.5rem; width: 100%; justify-content: center;}
       .page { padding: 0 1.25rem; }
       #profil .inner { grid-template-columns: 1fr; }
-      .profil-photo { width: 160px; height: 200px; justify-self: start; order: -1; }
+      .profil-photo { order: -1; }
       #parcours .cols { grid-template-columns: 1fr; gap: 2rem; }
       footer { padding: 1.5rem; }
+      section:first-of-type { padding-top: calc(var(--nav-h) + 3rem); }
     }
   </style>
 </head>
