@@ -16,10 +16,13 @@
     line-height: 1.42857;
   }
 
+
+
   .wrap {
     max-width: 970px;
     margin: 0 auto;
     padding: 24px 15px 60px;
+    text-align: center;   /* ajouté */
   }
 
   .notice {
@@ -53,8 +56,9 @@
 
   table {
     width: auto;
-    max-width: 800px;
+    max-width: 600px;
     border-collapse: collapse;
+    margin: 0 auto;   /* ← ajoutée */
   }
 
   caption { display: none; }
@@ -62,7 +66,7 @@
   thead th {
     text-align: left;
     font-weight: bold;
-    padding: 6px 24px 8px 4px;
+    padding: 6px 60px 8px 4px;
     border-bottom: 2px solid #ddd;
   }
 
@@ -72,9 +76,13 @@
   }
 
   tbody td {
-    padding: 7px 24px 7px 4px;
+    padding: 7px 60px 7px 4px;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
+  }
+
+  th, td {
+    text-align: left;
   }
 
   tbody tr:nth-child(even) {
