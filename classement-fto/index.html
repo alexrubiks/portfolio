@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classement FTO ao100</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: #333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+
+  .navbar {
+    background: #22252c;
+    padding: 12px 0;
+    border-bottom: 3px solid #337ab7;
+  }
+
+  .navbar-inner {
+    max-width: 970px;
+    margin: 0 auto;
+    padding: 0 15px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .navbar-inner span {
+    color: #8a919c;
+    font-weight: normal;
+  }
+
+  .wrap {
+    max-width: 970px;
+    margin: 0 auto;
+    padding: 24px 15px 60px;
+  }
+
+  .notice {
+    background: #fcf8e3;
+    border: 1px solid #faebcc;
+    color: #8a6d3b;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: #333;
+  }
+
+  .subtitle {
+    color: #777;
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+
+  .meta-line {
+    color: #777;
+    margin: 0 0 10px;
+    font-size: 13px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+
+  caption { display: none; }
+
+  thead th {
+    background: #f5f5f5;
+    text-align: left;
+    font-weight: bold;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
+  }
+
+  thead th.num {
+    text-align: right;
+  }
+
+  tbody td {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background: #f0f6fb;
+  }
+
+  td.rank {
+    color: #333;
+    width: 40px;
+  }
+
+  td.name a {
+    color: #337ab7;
+    text-decoration: none;
+  }
+
+  td.name a:hover {
+    text-decoration: underline;
+  }
+
+  td.time {
+    text-align: right;
+    font-weight: bold;
+    width: 110px;
+  }
+
+  .footnote {
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: #999;
+  }
+
+  .cta {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    font-size: 13px;
+    color: #555;
+  }
+
+  .cta a {
+    color: #337ab7;
+    text-decoration: none;
+  }
+  .cta a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="notice">
+    Le FTO (Face-Turning Octahedron) sera bientôt une épreuve WCA officielle. Son officialisation est prévue en janvier 2027, et ce classement est tenu à la main en attendant pour donner un aperçu du niveau global en France.
+  </div>
+
+  <h1>Classement France — FTO</h1>
+  <p class="subtitle">Average of 100</p>
+
+  <p class="meta-line" id="meta-line"></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th class="num">Résultat</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <p class="footnote">Résultats saisis manuellement</p>
+
+  <div class="cta">
+    Tu as une ao100 de FTO et tu n'es pas dans la liste ? Envoie-le moi pour rejoindre le classement ! — Alexis Tremellat (pour info je n'utilise plus instagram)
+  </div>
+
+</div>
+
+<script>
+  // Ajoute une ligne ici pour chaque nouvelle personne — le tri et le
+  // classement se recalculent tout seuls.
+  const results = [
+    { first: "Alexis",  last: "Tremellat",  time: "44.53" },
+    { first: "Brice",   last: "Goglin",     time: "46.72" },
+    { first: "Ylann",   last: "Vernaton",   time: "35.34" },
+    { first: "Arthur",  last: "Cambon",     time: "1:21.34" },
+    { first: "Romain",  last: "Velcin",     time: "25.13" },
+  ];
+
+  function toSeconds(t) {
+    if (t.includes(":")) {
+      const [m, s] = t.split(":");
+      return parseInt(m, 10) * 60 + parseFloat(s);
+    }
+    return parseFloat(t);
+  }
+
+  function formatTime(seconds) {
+    if (seconds < 60) return seconds.toFixed(2);
+    const m = Math.floor(seconds / 60);
+    const s = (seconds - m * 60).toFixed(2).padStart(5, "0");
+    return `${m}:${s}`;
+  }
+
+  const sorted = results
+    .map(r => ({ ...r, seconds: toSeconds(r.time) }))
+    .sort((a, b) => a.seconds - b.seconds);
+
+  const rowsEl = document.getElementById("rows");
+  sorted.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="rank">${i + 1}</td>
+      <td class="name">${r.first} ${r.last}</td>
+      <td class="time">${formatTime(r.seconds)}</td>
+    `;
+    rowsEl.appendChild(tr);
+  });
+
+  document.getElementById("meta-line").textContent =
+    `${sorted.length} résultat${sorted.length > 1 ? "s" : ""}`;
+</script>
+</body>
+</html>
